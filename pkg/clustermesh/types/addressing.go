@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/cilium/cilium/pkg/cidr"
+	"github.com/cilium/cilium/pkg/ip"
 	ippkg "github.com/cilium/cilium/pkg/ip"
 )
 
@@ -335,17 +336,23 @@ func (pc PrefixCluster) String() string {
 	return pc.prefix.String() + "@" + strconv.FormatUint(uint64(pc.clusterID), 10)
 }
 
+// AsPrefix returns the IP prefix part of PrefixCluster as a netip.Prefix type.
+// This function exists for keeping backward compatibility between the existing
+// components which are not aware of the cluster-aware addressing. Calling
+// this function against the PrefixCluster which has non-zero clusterID will
+// lose the ClusterID information. It should be used with an extra care.
+func (pc PrefixCluster) AsPrefix() netip.Prefix {
+	addr := pc.prefix.Addr()
+	return netip.PrefixFrom(addr, addr.BitLen())
+}
+
 // AsIPNet returns the IP prefix part of PrefixCluster as a net.IPNet type. This
 // function exists for keeping backward compatibility between the existing
 // components which are not aware of the cluster-aware addressing. Calling
 // this function against the PrefixCluster which has non-zero clusterID will
 // lose the ClusterID information. It should be used with an extra care.
 func (pc PrefixCluster) AsIPNet() net.IPNet {
-	addr := pc.prefix.Addr()
-	return net.IPNet{
-		IP:   addr.AsSlice(),
-		Mask: net.CIDRMask(pc.prefix.Bits(), addr.BitLen()),
-	}
+	return *ip.PrefixToIPNet(pc.AsPrefix())
 }
 
 // This function is solely exists for annotating IPCache's key string with ClusterID.
