@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"net/netip"
 	"sort"
 	"testing"
 
@@ -123,7 +124,7 @@ func (s *IPCacheTestSuite) TestIPCache(c *C) {
 
 	cachedHostIP, _ := IPIdentityCache.getHostIPCache(endpointIP)
 	c.Assert(cachedHostIP, checker.DeepEquals, hostIP)
-	c.Assert(IPIdentityCache.GetK8sMetadata(endpointIP), checker.DeepEquals, k8sMeta)
+	c.Assert(IPIdentityCache.GetK8sMetadata(netip.MustParseAddr(endpointIP)), checker.DeepEquals, k8sMeta)
 
 	newIdentity := identityPkg.NumericIdentity(69)
 	IPIdentityCache.Upsert(endpointIP, hostIP, 0, k8sMeta, Identity{
@@ -438,7 +439,7 @@ func (s *IPCacheTestSuite) TestIPCacheNamedPorts(c *C) {
 
 	cachedHostIP, _ := IPIdentityCache.getHostIPCache(endpointIP)
 	c.Assert(cachedHostIP, checker.DeepEquals, hostIP)
-	c.Assert(IPIdentityCache.GetK8sMetadata(endpointIP), checker.DeepEquals, k8sMeta)
+	c.Assert(IPIdentityCache.GetK8sMetadata(netip.MustParseAddr(endpointIP)), checker.DeepEquals, k8sMeta)
 
 	newIdentity := identityPkg.NumericIdentity(69)
 	namedPortsChanged, err = IPIdentityCache.Upsert(endpointIP, hostIP, 0, k8sMeta, Identity{
