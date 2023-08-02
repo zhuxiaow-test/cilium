@@ -86,7 +86,6 @@ jobs:
             encryption-node: 'false'
             debug: 'true'
             test-flow-interrupts: 'true'
-            ipv6: 'false' # until https://github.com/cilium/cilium/issues/26944 resolved
 
           - name: '2'
             kernel: '5.10-20230420.212204'
@@ -97,7 +96,6 @@ jobs:
             encryption-node: 'false'
             endpoint-routes: 'true'
             test-flow-interrupts: 'true'
-            ipv6: 'false' # until https://github.com/cilium/cilium/issues/26944 resolved
 
           - name: '3'
             kernel: 'bpf-next-20230420.212204'
@@ -108,7 +106,6 @@ jobs:
             encryption-node: 'false'
             endpoint-routes: 'true'
             test-flow-interrupts: 'true'
-            ipv6: 'false' # until https://github.com/cilium/cilium/issues/26944 resolved
 
     timeout-minutes: 60
     steps:
