@@ -535,6 +535,10 @@ const (
 	// compatible with Tunnel=TunnelDisabled
 	SingleClusterRouteName = "single-cluster-route"
 
+	// MaxInternalTimerDelay sets a maximum on all periodic timers in
+	// the agent in order to flush out timer-related bugs in the agent.
+	MaxInternalTimerDelay = "max-internal-timer-delay"
+
 	// MonitorAggregationName specifies the MonitorAggregationLevel on the
 	// comandline.
 	MonitorAggregationName = "monitor-aggregation"
@@ -1545,6 +1549,10 @@ type DaemonConfig struct {
 	CTMapEntriesTimeoutSVCAny      time.Duration
 	CTMapEntriesTimeoutSYN         time.Duration
 	CTMapEntriesTimeoutFIN         time.Duration
+
+	// MaxInternalTimerDelay sets a maximum on all periodic timers in
+	// the agent in order to flush out timer-related bugs in the agent.
+	MaxInternalTimerDelay time.Duration
 
 	// MonitorAggregationInterval configures the interval between monitor
 	// messages when monitor aggregation is enabled.

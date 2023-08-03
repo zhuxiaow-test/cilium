@@ -72,3 +72,7 @@ type (
 	Timer      = time.Timer
 	Weekday    = time.Weekday
 )
+
+var (
+	MaxInternalTimerDelay time.Duration
+)
