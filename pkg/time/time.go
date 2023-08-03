@@ -42,7 +42,6 @@ const (
 
 var (
 	After                  = time.After
-	Sleep                  = time.Sleep
 	Tick                   = time.Tick
 	ParseDuration          = time.ParseDuration
 	Since                  = time.Since
@@ -76,3 +75,12 @@ type (
 var (
 	MaxInternalTimerDelay time.Duration
 )
+
+// Sleep overrides the stdlib time.Sleep to enforce maximum sleepiness via
+// option.MaxInternalTimerDelay.
+func Sleep(d time.Duration) {
+	if MaxInternalTimerDelay > 0 && d > MaxInternalTimerDelay {
+		d = MaxInternalTimerDelay
+	}
+	time.Sleep(d)
+}
