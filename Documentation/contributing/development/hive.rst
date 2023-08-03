@@ -983,12 +983,12 @@ Consider the following example:
         "fmt"
         "math/rand"
         "runtime/pprof"
-        "time"
 
         "github.com/cilium/cilium/pkg/hive"
         "github.com/cilium/cilium/pkg/hive/cell"
         "github.com/cilium/cilium/pkg/hive/job"
         "github.com/cilium/cilium/pkg/stream"
+        "github.com/cilium/cilium/pkg/time"
         "github.com/sirupsen/logrus"
         "k8s.io/client-go/util/workqueue"
     )

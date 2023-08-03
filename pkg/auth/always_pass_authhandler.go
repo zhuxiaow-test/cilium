@@ -4,12 +4,11 @@
 package auth
 
 import (
-	"time"
-
 	"github.com/sirupsen/logrus"
 
 	"github.com/cilium/cilium/pkg/auth/certs"
 	"github.com/cilium/cilium/pkg/policy"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 // alwaysPassAuthHandler implements an authHandler by just authenticate every request

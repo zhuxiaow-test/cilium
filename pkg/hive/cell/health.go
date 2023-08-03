@@ -7,9 +7,9 @@ import (
 	"context"
 	"fmt"
 	"sync/atomic"
-	"time"
 
 	"github.com/cilium/cilium/pkg/lock"
+	"github.com/cilium/cilium/pkg/time"
 
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"

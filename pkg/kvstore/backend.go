@@ -5,7 +5,8 @@ package kvstore
 
 import (
 	"context"
-	"time"
+
+	"github.com/cilium/cilium/pkg/time"
 
 	"google.golang.org/grpc"
 )

@@ -8,7 +8,6 @@ import (
 	"errors"
 	"runtime/pprof"
 	"sync"
-	"time"
 
 	"github.com/sirupsen/logrus"
 	"k8s.io/client-go/util/workqueue"
@@ -19,6 +18,7 @@ import (
 	"github.com/cilium/cilium/pkg/lock"
 	"github.com/cilium/cilium/pkg/spanstat"
 	"github.com/cilium/cilium/pkg/stream"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 // Cell provides job.Registry which constructs job.Group-s. Job groups automate a lot of the logic involved with

@@ -4,9 +4,8 @@
 package helpers
 
 import (
-	"time"
-
 	"github.com/cilium/cilium/pkg/lock"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 // Operation represents an API operation

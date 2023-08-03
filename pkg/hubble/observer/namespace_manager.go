@@ -5,12 +5,12 @@ package observer
 
 import (
 	"context"
-	"time"
 
 	"golang.org/x/exp/slices"
 
 	observerpb "github.com/cilium/cilium/api/v1/observer"
 	"github.com/cilium/cilium/pkg/lock"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 var _ NamespaceManager = &namespaceManager{}

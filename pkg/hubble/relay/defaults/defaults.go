@@ -5,10 +5,10 @@ package defaults
 
 import (
 	"fmt"
-	"time"
 
 	ciliumDefaults "github.com/cilium/cilium/pkg/defaults"
 	hubbledefaults "github.com/cilium/cilium/pkg/hubble/defaults"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 const (

@@ -7,10 +7,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/cilium/cilium/pkg/hive/internal"
 	"github.com/cilium/cilium/pkg/lock"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 // HookContext is a context passed to a lifecycle hook that is cancelled

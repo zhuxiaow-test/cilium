@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"time"
 
 	"golang.org/x/time/rate"
 
@@ -16,6 +15,7 @@ import (
 	"github.com/cilium/cilium/pkg/ipam/service/ipallocator"
 	ipamTypes "github.com/cilium/cilium/pkg/ipam/types"
 	"github.com/cilium/cilium/pkg/lock"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 // Operation is an Azure API operation that this mock API supports

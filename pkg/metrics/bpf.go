@@ -8,7 +8,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os/exec"
-	"time"
+
+	"github.com/cilium/cilium/pkg/time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"

@@ -4,8 +4,6 @@
 package pool
 
 import (
-	"time"
-
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 
@@ -15,6 +13,7 @@ import (
 	poolTypes "github.com/cilium/cilium/pkg/hubble/relay/pool/types"
 	"github.com/cilium/cilium/pkg/logging"
 	"github.com/cilium/cilium/pkg/logging/logfields"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 // defaultOptions is the reference point for default values.

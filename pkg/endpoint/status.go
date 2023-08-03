@@ -6,10 +6,10 @@ package endpoint
 import (
 	"fmt"
 	"sort"
-	"time"
 
 	"github.com/cilium/cilium/api/v1/models"
 	"github.com/cilium/cilium/pkg/lock"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 type StatusCode int

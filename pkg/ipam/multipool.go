@@ -9,7 +9,6 @@ import (
 	"net"
 	"sort"
 	"strconv"
-	"time"
 
 	"github.com/sirupsen/logrus"
 	"golang.org/x/exp/slices"
@@ -23,6 +22,7 @@ import (
 	"github.com/cilium/cilium/pkg/lock"
 	"github.com/cilium/cilium/pkg/logging/logfields"
 	"github.com/cilium/cilium/pkg/option"
+	"github.com/cilium/cilium/pkg/time"
 	"github.com/cilium/cilium/pkg/trigger"
 )
 

@@ -4,9 +4,8 @@
 package cell
 
 import (
-	"time"
-
 	"github.com/cilium/cilium/pkg/hive/internal"
+	"github.com/cilium/cilium/pkg/time"
 )
 
 type invoker struct {

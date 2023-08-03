@@ -3,9 +3,7 @@
 
 package pool
 
-import (
-	"time"
-)
+import "github.com/cilium/cilium/pkg/time"
 
 // BackoffDuration wraps Duration.
 type BackoffDuration interface {
