@@ -208,6 +208,7 @@ func (t *Trigger) waiter() {
 
 		select {
 		case <-t.wakeupChan:
+			// TODO: Add wrapper for `After` in pkg/time
 		case <-sleepTimer.After(t.params.sleepInterval):
 
 		case <-t.closeChan:
