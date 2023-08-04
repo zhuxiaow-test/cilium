@@ -96,6 +96,7 @@ func newPolicyTrifecta(params policyParams) (policyOut, error) {
 	idAlloc := &cachingIdentityAllocator{
 		cache.NewCachingIdentityAllocator(iao),
 		nil,
+		sync.Once{},
 	}
 
 	iao.policy = policy.NewStoppedPolicyRepository(

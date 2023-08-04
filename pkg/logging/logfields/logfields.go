@@ -738,4 +738,6 @@ const (
 
 	// State is the state of an individual component (apiserver, kvstore etc)
 	State = "state"
+
+	ReportPlease = "Please report this error to the developers"
 )
