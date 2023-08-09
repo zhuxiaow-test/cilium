@@ -17,6 +17,7 @@ import (
 	"github.com/cilium/cilium/pkg/ipcache/types"
 	"github.com/cilium/cilium/pkg/labels"
 	"github.com/cilium/cilium/pkg/labels/cidr"
+	"github.com/cilium/cilium/pkg/option"
 	"github.com/cilium/cilium/pkg/source"
 	testidentity "github.com/cilium/cilium/pkg/testutils/identity"
 )
@@ -53,14 +54,27 @@ func TestInjectLabels(t *testing.T) {
 
 	// Upsert node labels to the kube-apiserver to validate that the CIDR ID is
 	// deallocated and the kube-apiserver reserved ID is associated with this
-	// IP now.
+	// IP now (unless we are enabling policy-cidr-selects-nodes).
 	IPIdentityCache.metadata.upsertLocked(inClusterPrefix, source.CustomResource, "node-uid", labels.LabelRemoteNode)
 	assert.Len(t, IPIdentityCache.metadata.m, 2)
 	remaining, err = IPIdentityCache.InjectLabels(ctx, []netip.Prefix{inClusterPrefix})
 	assert.NoError(t, err)
 	assert.Len(t, remaining, 0)
 	assert.Len(t, IPIdentityCache.ipToIdentityCache, 2)
-	assert.False(t, IPIdentityCache.ipToIdentityCache["10.0.0.4/32"].ID.HasLocalCIDRScope())
+	assert.Equal(t, identity.ReservedIdentityKubeAPIServer, IPIdentityCache.ipToIdentityCache["10.0.0.4/32"].ID)
+
+	// Enable policy-cidr-selects-nodes, ensure that node now has a separate identity
+	oldVal := option.Config.PolicyCIDRSelectsNodes
+	defer func() {
+		option.Config.PolicyCIDRSelectsNodes = oldVal
+	}()
+	option.Config.PolicyCIDRSelectsNodes = true
+
+	remaining, err = IPIdentityCache.InjectLabels(ctx, []netip.Prefix{inClusterPrefix})
+	assert.NoError(t, err)
+	assert.Len(t, remaining, 0)
+	assert.Len(t, IPIdentityCache.ipToIdentityCache, 2)
+	assert.Equal(t, identity.IdentityScopeRemoteNode, IPIdentityCache.ipToIdentityCache["10.0.0.4/32"].ID.Scope())
 
 	// Clean up.
 	IPIdentityCache.metadata.remove(inClusterPrefix, "node-uid", overrideIdentity(false), labels.LabelRemoteNode)
