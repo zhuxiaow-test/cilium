@@ -37,6 +37,12 @@ inputs:
   host-fw:
     description: 'Enable host firewall'
     default: false
+  mutual-auth:
+    description: 'Enable mTLS-based Mutual Authentication'
+    default: true
+  bpf-clock-probe:
+    description: 'Enable BPF clock source probing (needs to be disabled for upgrade tests)'
+    default: true
 outputs:
   config:
     description: 'Cilium installation config'
@@ -63,7 +69,10 @@ runs:
             --helm-set=hubble.relay.image.useDigest=false \
             --helm-set=hubble.eventBufferCapacity=65535 \
             --helm-set=bpf.monitorAggregation=none \
-            --helm-set=authentication.mutual.spire.enabled=true \
+            --helm-set=cluster.name=default \
+            --helm-set=authentication.mutual.spire.enabled=${{ inputs.mutual-auth }} \
+            --helm-set=bpfClockProbe=${{ inputs.bpf-clock-probe }} \
+            --helm-set=cni.uninstall=false \
             --nodes-without-cilium=kind-worker3 \
             --helm-set-string=kubeProxyReplacement=${{ inputs.kpr }}"
 
