@@ -72,7 +72,6 @@ runs:
             --helm-set=cluster.name=default \
             --helm-set=authentication.mutual.spire.enabled=${{ inputs.mutual-auth }} \
             --helm-set=bpfClockProbe=${{ inputs.bpf-clock-probe }} \
-            --helm-set=cni.uninstall=false \
             --nodes-without-cilium=kind-worker3 \
             --helm-set-string=kubeProxyReplacement=${{ inputs.kpr }}"
 
