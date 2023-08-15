@@ -1196,6 +1196,9 @@ const (
 
 	// EnableK8sNetworkPolicy enables support for K8s NetworkPolicy.
 	EnableK8sNetworkPolicy = "enable-k8s-networkpolicy"
+
+	// PolicyCIDRSelectsNodes enables selecting nodes via CIDR network policy selectors
+	PolicyCIDRSelectsNodes = "policy-cidr-selects-nodes"
 )
 
 // Default string arguments
@@ -2440,6 +2443,9 @@ type DaemonConfig struct {
 
 	// EnableK8sNetworkPolicy enables support for K8s NetworkPolicy.
 	EnableK8sNetworkPolicy bool
+
+	// PolicyCIDRSelectsNodes enables support for selecting nodes via CIDR selectors in NetworkPolicy
+	PolicyCIDRSelectsNodes bool
 }
 
 var (
@@ -2490,6 +2496,7 @@ var (
 		EnableVTEP:             defaults.EnableVTEP,
 		EnableBGPControlPlane:  defaults.EnableBGPControlPlane,
 		EnableK8sNetworkPolicy: defaults.EnableK8sNetworkPolicy,
+		PolicyCIDRSelectsNodes: defaults.PolicyCIDRSelectsNodes,
 	}
 )
 
@@ -3591,6 +3598,7 @@ func (c *DaemonConfig) Populate(vp *viper.Viper) {
 
 	// To support K8s NetworkPolicy
 	c.EnableK8sNetworkPolicy = vp.GetBool(EnableK8sNetworkPolicy)
+	c.PolicyCIDRSelectsNodes = vp.GetBool(PolicyCIDRSelectsNodes)
 }
 
 func (c *DaemonConfig) populateDevices(vp *viper.Viper) {
