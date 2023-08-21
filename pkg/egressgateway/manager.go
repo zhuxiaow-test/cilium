@@ -221,6 +221,10 @@ func NewEgressGatewayManager(p Params) (out struct {
 		"ENABLE_EGRESS_GATEWAY": "1",
 	}
 
+	if p.Config.InstallEgressGatewayRoutes {
+		out.NodeDefines["INSTALL_EGRESS_GATEWAY_ROUTES"] = "1"
+	}
+
 	return out, nil
 }
 
