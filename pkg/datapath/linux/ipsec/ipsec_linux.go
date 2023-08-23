@@ -1081,3 +1081,33 @@ func StartStaleKeysReclaimer(ctx context.Context) {
 		}
 	}()
 }
+
+// We need to install xfrm state for the local router (cilium_host) early
+// in daemon init path. This is to ensure that we have the xfrm state in
+// place before we advertise the routerIP where other nodes may potentially
+// pick it up and start sending traffic to us. This was previously racing
+// and creating XfrmInNoState errors because other nodes picked up node
+// update before Xfrm config logic was in place. So special case init the
+// rule we need early in init flow.
+func Init() error {
+	exactMask := net.IPv4Mask(255, 255, 255, 255)
+	outerLocalIP := node.GetInternalIPv4Router()
+	wildcardIP := net.ParseIP("0.0.0.0")
+	localIP := &net.IPNet{IP: outerLocalIP, Mask: exactMask}
+	localWildcardIP := &net.IPNet{IP: wildcardIP, Mask: net.IPv4Mask(0, 0, 0, 0)}
+
+	if err := ipSecReplaceStateIn(outerLocalIP, wildcardIP, false); err != nil {
+		return fmt.Errorf("unable to replace local state: %s", err)
+	}
+	if err := ipSecReplacePolicyIn(localIP, localWildcardIP, outerLocalIP, wildcardIP); err != nil {
+		if !os.IsExist(err) {
+			return fmt.Errorf("unable to replace policy in: %s", err)
+		}
+	}
+	if err := IpSecReplacePolicyFwd(localIP, outerLocalIP); err != nil {
+		if !os.IsExist(err) {
+			return fmt.Errorf("unable to replace policy fwd: %s", err)
+		}
+	}
+	return nil
+}
