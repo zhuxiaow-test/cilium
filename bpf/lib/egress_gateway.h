@@ -11,6 +11,7 @@
 #include "maps.h"
 
 #ifdef ENABLE_EGRESS_GATEWAY_COMMON
+#ifdef ENABLE_IPV4
 
 /* EGRESS_STATIC_PREFIX represents the size in bits of the static prefix part of
  * an egress policy key (i.e. the source IP).
@@ -155,5 +156,6 @@ int egress_gw_fib_lookup_and_redirect(struct __ctx_buff *ctx, __be32 egress_ip, 
 	return fib_do_redirect(ctx, true, &fib_params, ext_err, (int *)&old_oif);
 }
 
+#endif /* ENABLE_IPV4 */
 #endif /* ENABLE_EGRESS_GATEWAY_COMMON */
 #endif /* __LIB_EGRESS_GATEWAY_H_ */
