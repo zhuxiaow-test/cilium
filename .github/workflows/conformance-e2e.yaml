@@ -52,8 +52,8 @@ concurrency:
 
 env:
   # renovate: datasource=github-releases depName=cilium/cilium-cli
-  cilium_cli_version: v0.15.6
-  cilium_cli_ci_version:
+  cilium_cli_version:
+  cilium_cli_ci_version: d1fec3f32e58d3e720628a9fc0ca48164959e357
   check_url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 jobs:
@@ -311,6 +311,7 @@ jobs:
             cd /host/
 
             ./cilium-cli connectivity test --include-unsafe-tests --collect-sysdump-on-failure \
+              --secondary-network-iface=eth1 \
               --sysdump-hubble-flows-count=1000000 --sysdump-hubble-flows-timeout=5m \
               --sysdump-output-filename "cilium-sysdump-${{ matrix.name }}-<ts>" \
               --junit-file "cilium-junits/${{ env.job_name }} (${{ join(matrix.*, ', ') }}).xml" \
