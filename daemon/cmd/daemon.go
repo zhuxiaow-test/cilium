@@ -1088,6 +1088,17 @@ func newDaemon(ctx context.Context, cleaner *daemonCleanup, params *daemonParams
 	// Must occur after d.allocateIPs(), see GH-14245 and its fix.
 	d.nodeDiscovery.StartDiscovery()
 
+	// Must be done at least after initializing BPF LB-related maps
+	// (lbmap.Init()) and after IPs have been allocated (d.allocateIPs).
+	// But, strictly before AnnotateK8sNode pushes IP changes into the
+	// node object allowing remote nodes to learn new allocated IPs.
+	bootstrapStats.bpfBase.Start()
+	err = d.init()
+	bootstrapStats.bpfBase.EndError(err)
+	if err != nil {
+		return nil, restoredEndpoints, fmt.Errorf("error while initializing daemon: %w", err)
+	}
+
 	// Annotation of the k8s node must happen after discovery of the
 	// PodCIDR range and allocation of the health IPs.
 	if params.Clientset.IsEnabled() && option.Config.AnnotateK8sNode {
@@ -1137,15 +1148,6 @@ func newDaemon(ctx context.Context, cleaner *daemonCleanup, params *daemonParams
 		// identity allocator to run asynchronously.
 		realIdentityAllocator := d.identityAllocator
 		realIdentityAllocator.InitIdentityAllocator(params.Clientset)
-	}
-
-	// Must be done at least after initializing BPF LB-related maps
-	// (lbmap.Init()).
-	bootstrapStats.bpfBase.Start()
-	err = d.init()
-	bootstrapStats.bpfBase.EndError(err)
-	if err != nil {
-		return nil, restoredEndpoints, fmt.Errorf("error while initializing daemon: %w", err)
 	}
 
 	// iptables rules can be updated only after d.init() intializes the iptables above.
