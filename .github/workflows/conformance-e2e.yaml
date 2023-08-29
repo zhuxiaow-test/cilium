@@ -105,6 +105,7 @@ jobs:
             kernel: '5.10-20230810.091425'
             kube-proxy: 'iptables'
             kpr: 'true'
+            devices: 'eth+'
             tunnel: 'vxlan'
             lb-mode: 'snat'
             endpoint-routes: 'true'
@@ -115,6 +116,7 @@ jobs:
             kernel: '5.15-20230810.091425'
             kube-proxy: 'iptables'
             kpr: 'true'
+            devices: 'eth+'
             tunnel: 'disabled'
             lb-mode: 'dsr'
             endpoint-routes: 'true'
@@ -137,6 +139,7 @@ jobs:
             kernel: 'bpf-next-20230810.091425'
             kube-proxy: 'none'
             kpr: 'true'
+            devices: 'eth+'
             tunnel: 'disabled'
             lb-mode: 'snat'
             egress-gateway: 'true'
@@ -155,6 +158,7 @@ jobs:
             kernel: '5.10-20230810.091425'
             kube-proxy: 'iptables'
             kpr: 'true'
+            devices: 'eth+'
             tunnel: 'vxlan'
             encryption: 'wireguard'
             encryption-node: 'false'
@@ -167,6 +171,7 @@ jobs:
             kernel: '5.15-20230810.091425'
             kube-proxy: 'iptables'
             kpr: 'true'
+            devices: 'eth+'
             tunnel: 'disabled'
             encryption: 'wireguard'
             encryption-node: 'false'
@@ -179,6 +184,7 @@ jobs:
             kernel: '6.0-20230810.091425'
             kube-proxy: 'none'
             kpr: 'true'
+            devices: 'eth+'
             tunnel: 'vxlan'
             encryption: 'wireguard'
             encryption-node: 'true'
@@ -190,6 +196,7 @@ jobs:
             kernel: 'bpf-next-20230810.091425'
             kube-proxy: 'none'
             kpr: 'true'
+            devices: 'eth+'
             tunnel: 'disabled'
             encryption: 'wireguard'
             encryption-node: 'true'
@@ -224,6 +231,7 @@ jobs:
           image-tag: ${{ steps.vars.outputs.sha }}
           chart-dir: './install/kubernetes/cilium'
           tunnel: ${{ matrix.tunnel }}
+          devices: ${{ matrix.devices }}
           endpoint-routes: ${{ matrix.endpoint-routes }}
           ipv6: ${{ matrix.ipv6 }}
           kpr: ${{ matrix.kpr }}
